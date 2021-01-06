@@ -1,0 +1,50 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\RiderProjects\\Parser\\Parser\\Parser.csproj": {}
+  },
+  "projects": {
+    "E:\\RiderProjects\\Parser\\Parser\\Parser.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\RiderProjects\\Parser\\Parser\\Parser.csproj",
+        "projectName": "Parser",
+        "projectPath": "E:\\RiderProjects\\Parser\\Parser\\Parser.csproj",
+        "packagesPath": "C:\\Users\\sverl\\.nuget\\packages\\",
+        "outputPath": "E:\\RiderProjects\\Parser\\Parser\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\sverl\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net471"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net471": {
+            "targetAlias": "net471",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net471": {
+          "targetAlias": "net471",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win7-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}
