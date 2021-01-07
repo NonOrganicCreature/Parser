@@ -56,6 +56,7 @@ namespace Parser
                 }
             }
 
+            parseD.ParseResult = new ParseResult<T>();
             parseD.ParseResult.Value = parseD.ParserOptions.GetParseMethod(responseHTML);
         }
         

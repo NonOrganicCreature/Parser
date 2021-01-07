@@ -7,6 +7,12 @@ namespace Parser
         private ParserOptionsEnum _optionsEnumValue;
         private string _parserOptionsAnchor;
 
+        public ParserOptions(ParserOptionsEnum optionsEnumValue, string parserOptionsAnchor)
+        {
+            _optionsEnumValue = optionsEnumValue;
+            _parserOptionsAnchor = parserOptionsAnchor;
+        }
+
         public ParserOptionsEnum OptionsEnumValue
         {
             get => _optionsEnumValue;
@@ -31,6 +37,16 @@ namespace Parser
                 switch (_optionsEnumValue)
                 {
                     case ParserOptionsEnum.Tag:
+                    {
+                        parseMethod = stringToParse =>
+                        {
+                            T result = stringToParse as T;
+                            return result;
+                        };
+                    }
+                        break;
+                    
+                    case ParserOptionsEnum.Selector:
                     {
                         parseMethod = stringToParse =>
                         {

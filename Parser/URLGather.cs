@@ -13,7 +13,7 @@ namespace Parser
         {
             foreach (var parserData in ParserDataList)
             {
-                if (parserData.ParseResult != null)
+                if (parserData.ParseResult == null)
                 {
                     Thread parseThread = new Thread(Parse);
                     parseThread.Start(parserData);
@@ -21,9 +21,17 @@ namespace Parser
             }
         }
 
-        public new void Parse(object parseData)
+        protected override void Parse(object parseData)
         {
+            base.Parse(parseData);
             
+            ParserData<T> pd = (ParserData<T>) parseData;
+            this.ParserDataList.Add(
+                new ParserData<T>(
+                    pd.ParseResult.Value.ToString(), 
+                    new ParserOptions<T>(ParserOptionsEnum.Selector, Config.P_CLASS_SELECTOR), 
+                    null)
+                );
         }
     }
 }

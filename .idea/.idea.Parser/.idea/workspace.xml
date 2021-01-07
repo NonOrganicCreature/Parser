@@ -22,26 +22,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da56100d-d583-488d-b7ea-d158d9b40314" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Parser/Config.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Parser/FileLoadSystem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Parser/URLGather.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Parser/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Parser/.idea/contentModel.xml" afterDir="false" />
+    <list default="true" id="da56100d-d583-488d-b7ea-d158d9b40314" name="Default Changelist" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Parser/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Parser/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parser/Config.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/Config.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Parser/MultiThreadingParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/MultiThreadingParser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/Parser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/Parser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/Parser.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/Parser.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/ParserData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/ParserData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Parser/ParserOptions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/ParserOptions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/ProxyData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/ProxyData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/obj/Debug/net471/Parser.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/obj/Debug/net471/Parser.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/obj/Debug/net471/Parser.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/obj/Debug/net471/Parser.csprojAssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/obj/Parser.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/obj/Parser.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parser/ParserOptionsEnum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/ParserOptionsEnum.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parser/URLGather.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parser/URLGather.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,19 +41,19 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Parser/ParserOptionsEnum.cs" />
         <option value="$PROJECT_DIR$/Parser/ParseResult.cs" />
         <option value="$PROJECT_DIR$/Parser/IProxyUsage.cs" />
-        <option value="$PROJECT_DIR$/Parser/Config.cs" />
         <option value="$PROJECT_DIR$/Parser/FilerLoadSystem.cs" />
         <option value="$PROJECT_DIR$/Parser/ProxyData.cs" />
         <option value="$PROJECT_DIR$/Parser/Program.cs" />
         <option value="$PROJECT_DIR$/Parser/FileLoadSystem.cs" />
         <option value="$PROJECT_DIR$/Parser/ParserData.cs" />
         <option value="$PROJECT_DIR$/Parser/Parser.cs" />
-        <option value="$PROJECT_DIR$/Parser/URLGather.cs" />
-        <option value="$PROJECT_DIR$/Parser/ParserOptions.cs" />
         <option value="$PROJECT_DIR$/Parser/MultiThreadingParser.cs" />
+        <option value="$PROJECT_DIR$/Parser/Config.cs" />
+        <option value="$PROJECT_DIR$/Parser/ParserOptionsEnum.cs" />
+        <option value="$PROJECT_DIR$/Parser/ParserOptions.cs" />
+        <option value="$PROJECT_DIR$/Parser/URLGather.cs" />
       </list>
     </option>
   </component>
@@ -115,8 +102,16 @@
       <workItem from="1609941295731" duration="1900000" />
       <workItem from="1609952573767" duration="455000" />
       <workItem from="1609953372389" duration="223000" />
-      <workItem from="1610007356570" duration="4725000" />
+      <workItem from="1610007356570" duration="5895000" />
     </task>
+    <task id="LOCAL-00001" summary="Changes">
+      <created>1610012112299</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1610012112299</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -138,6 +133,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes" />
   </component>
   <component name="WindowStateProjectService">
     <state width="447" height="464" key="DebuggerActiveHint" timestamp="1610008087768">
@@ -232,14 +229,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="375" key="GridCell.Tab.4.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610010125392" />
-    <state x="764" y="194" key="RiderGenerateDialog" timestamp="1610008368980">
+    <state x="764" y="194" key="RiderGenerateDialog" timestamp="1610013195780">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="764" y="194" key="RiderGenerateDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610008368980" />
+    <state x="764" y="194" key="RiderGenerateDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610013195780" />
     <state x="92" y="92" width="1736" height="856" key="VCS.FileHistoryDialog" timestamp="1609952871829">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="VCS.FileHistoryDialog/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1609952871829" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1610012154856">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610012154856" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

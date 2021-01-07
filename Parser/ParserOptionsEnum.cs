@@ -5,6 +5,7 @@
         TagWithClass,
         BetweenTags,
         BetweenTagsWithClasses,
-        Tag
+        Tag,
+        Selector
     }
 }
