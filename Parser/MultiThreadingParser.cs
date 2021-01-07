@@ -1,32 +1,63 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Threading;
 
 namespace Parser
 {
-    public class MultiThreadingParser<T> : Parser<T>
+    public class MultiThreadingParser<T> : Parser<T> where T : class
     {
-        public override Queue<ParserData<T>> ParserDataQueue { get; }
+        public override List<ParserData<T>> ParserDataList { get; }
         public List<ProxyData> ProxyDataList { get; }
-        public object lockObj;
+        public object lockObj = new object();
         
         public MultiThreadingParser(List<ParserData<T>> initializeParserData, List<ProxyData> proxyData)
         {
-            ParserDataQueue = new Queue<ParserData<T>>(initializeParserData);
+            ParserDataList = initializeParserData;
             ProxyDataList = proxyData;
         }
         
         public override void Run()
         {
-            while (ParserDataQueue.Count > 0)
+            foreach (var parserData in ParserDataList)
             {
                 Thread parseThread = new Thread(Parse);
-                parseThread.Start(ParserDataQueue.Dequeue());
+                parseThread.Start(parserData);
             }
         }
 
         protected override void Parse(object parseData)
         {
-            ParserData<T> pd = (ParserData<T>)parseData;
+            ParserData<T> parseD = (ParserData<T>)parseData;
+            ProxyData proxyD;
+            while (true)
+            {
+                lock (lockObj)
+                {
+                    proxyD = ProxyDataList.Find(proxy => !proxy.Using);
+                    if (proxyD != null)
+                    {
+                        proxyD.Using = true;
+                        break; 
+                    }
+                }
+            }
+
+            HttpWebRequest request = WebRequest.CreateHttp(parseD.Url);
+            WebProxy webProxy = new WebProxy(proxyD.ProxyValue, proxyD.ProxyPort);
+            request.Proxy = webProxy;
+            
+            string responseHTML = "";
+            using (Stream responseStream = request.GetResponse().GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(responseStream))
+                {
+                    responseHTML += reader.ReadToEnd();
+                }
+            }
+
+            parseD.ParseResult.Value = parseD.ParserOptions.GetParseMethod(responseHTML);
         }
+        
     }
 }

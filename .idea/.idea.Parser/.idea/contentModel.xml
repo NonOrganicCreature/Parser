@@ -7,6 +7,8 @@
       <e p="packages" t="ExcludeRecursive" />
       <e p="Parser" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Config.cs" t="Include" />
+        <e p="FileLoadSystem.cs" t="Include" />
         <e p="MultiThreadingParser.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -23,6 +25,7 @@
         <e p="ParserOptionsEnum.cs" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="ProxyData.cs" t="Include" />
+        <e p="URLGather.cs" t="Include" />
       </e>
       <e p="Parser.sln" t="IncludeFlat" />
     </e>

@@ -2,7 +2,7 @@
 
 namespace Parser
 {
-    public class ParserOptions
+    public class ParserOptions<T> where T : class
     {
         private ParserOptionsEnum _optionsEnumValue;
         private string _parserOptionsAnchor;
@@ -19,23 +19,30 @@ namespace Parser
             set => _parserOptionsAnchor = value;
         }
 
-        public Func<string, string> GetParseMethod()
+        public Func<string, T> GetParseMethod
         {
-            Func<string, string> parseMethod = stringToParse => { return stringToParse;};
-            switch (_optionsEnumValue)
+            get
             {
-                case ParserOptionsEnum.Tag:
+                Func<string, T> parseMethod = delegate(string s)
                 {
-                    parseMethod = stringToParse =>
+                    T result = s as T;
+                    return result;
+                };
+                switch (_optionsEnumValue)
+                {
+                    case ParserOptionsEnum.Tag:
                     {
-                        return stringToParse;
-                    };
+                        parseMethod = stringToParse =>
+                        {
+                            T result = stringToParse as T;
+                            return result;
+                        };
+                    }
+                        break;
                 }
-                break;
-            }
 
-            return parseMethod;
+                return parseMethod;
+            }
         }
-        
     }
 }

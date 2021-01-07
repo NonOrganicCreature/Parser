@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "hnyR6Dc8Q9f4ZXgZJv9Q4vzuUH5oFSExEFFzKmXxl418OIy52G1jRsAIdiXtTLJYOJU/vS0DUAhcjWJ0yK/e9w==",
+  "dgSpecHash": "HlO+sFbMFJzxYXawFqH5BDfhYl37q1c0EZdS4YFuol9S6UmqACsaEiiFEd8X125F/cZ+tMbufZuNFnJutNvwxA==",
   "success": true,
   "projectFilePath": "E:\\RiderProjects\\Parser\\Parser\\Parser.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\sverl\\.nuget\\packages\\htmlagilitypack\\1.11.29\\htmlagilitypack.1.11.29.nupkg.sha512"
+  ],
   "logs": []
 }

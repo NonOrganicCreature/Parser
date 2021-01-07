@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Parser
 {
@@ -6,7 +7,7 @@ namespace Parser
     {
         static void Main(string[] args)
         {
-            
+            List<ProxyData> proxyDataList = FileLoadSystem.LoadProxy();
         }
     }
 }
