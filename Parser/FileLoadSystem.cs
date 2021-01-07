@@ -13,7 +13,7 @@ namespace Parser
             {
                 byte[] array = new byte[fs.Length];
                 fs.Read(array, 0, array.Length);
-                string[] textFromFile = System.Text.Encoding.UTF8.GetString(array).Split('\n');
+                string[] textFromFile = System.Text.Encoding.UTF8.GetString(array).TrimEnd().Split('\n');
                 foreach (var proxy in textFromFile)
                 {
                     string[] proxyAndPort = proxy.Split(':');

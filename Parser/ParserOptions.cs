@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 
 namespace Parser
 {
@@ -25,36 +27,31 @@ namespace Parser
             set => _parserOptionsAnchor = value;
         }
 
-        public Func<string, T> GetParseMethod
+        public Func<Stream, T> GetParseMethod
         {
             get
             {
-                Func<string, T> parseMethod = delegate(string s)
-                {
-                    T result = s as T;
-                    return result;
-                };
+                Func<Stream, T> parseMethod = responseStream => null;
+                
+                var doc = new HtmlAgilityPack.HtmlDocument();
+                HtmlAgilityPack.HtmlNode.ElementsFlags["br"] = HtmlAgilityPack.HtmlElementFlag.Empty;
+                doc.OptionWriteEmptyNodes = true;
+                
+                
                 switch (_optionsEnumValue)
                 {
-                    case ParserOptionsEnum.Tag:
-                    {
-                        parseMethod = stringToParse =>
-                        {
-                            T result = stringToParse as T;
-                            return result;
-                        };
-                    }
-                        break;
-                    
                     case ParserOptionsEnum.Selector:
                     {
-                        parseMethod = stringToParse =>
+                        parseMethod = responseStream =>
                         {
-                            T result = stringToParse as T;
+                            doc.Load(responseStream);
+                            responseStream.Close();
+                            var aString = doc.DocumentNode.SelectSingleNode(_parserOptionsAnchor).InnerHtml.ToString();
+                            T result = aString as T;
                             return result;
                         };
                     }
-                        break;
+                    break;
                 }
 
                 return parseMethod;

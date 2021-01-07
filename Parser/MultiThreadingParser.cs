@@ -45,19 +45,13 @@ namespace Parser
 
             HttpWebRequest request = WebRequest.CreateHttp(parseD.Url);
             WebProxy webProxy = new WebProxy(proxyD.ProxyValue, proxyD.ProxyPort);
-            request.Proxy = webProxy;
+            // request.Proxy = webProxy;
+            request.ContentType = "text/html; charset=UTF-8";
+            Stream responseStream = request.GetResponse().GetResponseStream();
             
-            string responseHTML = "";
-            using (Stream responseStream = request.GetResponse().GetResponseStream())
-            {
-                using (StreamReader reader = new StreamReader(responseStream))
-                {
-                    responseHTML += reader.ReadToEnd();
-                }
-            }
-
+            
             parseD.ParseResult = new ParseResult<T>();
-            parseD.ParseResult.Value = parseD.ParserOptions.GetParseMethod(responseHTML);
+            parseD.ParseResult.Value = parseD.ParserOptions.GetParseMethod(responseStream);
         }
         
     }
