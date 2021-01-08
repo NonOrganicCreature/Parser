@@ -1,13 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Text;
 using System.Threading;
 
 namespace Parser
 {
-    public class URLGather<T> : MultiThreadingParser<T> where T : class
+    public class URLGather<T> : Parser<T> where T : class
     {
-        public URLGather(List<ParserData<T>> initializeParserData, List<ProxyData> proxyData) : base(initializeParserData, proxyData)
+        public override List<ParserData<T>> ParserDataList { get; }
+        public URLGather(List<ParserData<T>> initializeParserData)
         {
+            ParserDataList = initializeParserData;
         }
+        
+        private bool endReached = false;
+        private int cnt = 0;
 
         public override void Run()
         {
@@ -15,23 +24,53 @@ namespace Parser
             {
                 if (parserData.ParseResult == null)
                 {
-                    Thread parseThread = new Thread(Parse);
-                    parseThread.Start(parserData);
+                    Parse(parserData);
                 }
             }
         }
 
         protected override void Parse(object parseData)
         {
-            base.Parse(parseData);
             
-            ParserData<T> pd = (ParserData<T>) parseData;
+            ParserData<T> parseD = (ParserData<T>) parseData;
+            HttpWebRequest request = WebRequest.CreateHttp(parseD.Url);
+            request.KeepAlive = false;
+            request.Credentials = CredentialCache.DefaultCredentials;
+            request.ContentType = "text/html; charset=UTF-8";
+            request.Timeout = 2000;
+            try
+            {
+                StreamReader responseStream =
+                    new StreamReader(request.GetResponse().GetResponseStream(), Encoding.UTF8);
+                parseD.ParseResult = new ParseResult<T>();
+                parseD.ParserOptions = new ParserOptions<T>(ParserOptionsEnum.Selector, Config.P_CLASS_SELECTOR,
+                    Config.ATTR_HREF);
+                parseD.ParseResult.Value = parseD.ParserOptions.GetParseMethod(responseStream);
+            }
+            catch (WebException webException)
+            {
+                Console.Error.WriteLine(webException.Message);
+            }
+            
+            if (parseD.ParseResult == null)
+            {
+                Run();
+                return;
+            }
+            
+            if (parseD.ParseResult.Value.ToString() == Config.END_OF_URL_PARSING)
+            {
+                return;
+            }
+
             this.ParserDataList.Add(
                 new ParserData<T>(
-                    pd.ParseResult.Value.ToString(), 
-                    new ParserOptions<T>(ParserOptionsEnum.Selector, Config.P_CLASS_SELECTOR), 
+                    parseD.ParseResult.Value.ToString(), 
+                    new ParserOptions<T>(ParserOptionsEnum.Selector, Config.P_CLASS_SELECTOR, Config.ATTR_HREF), 
                     null)
                 );
+
+            Run();
         }
     }
 }

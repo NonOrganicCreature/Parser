@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading;
 
 namespace Parser
@@ -34,7 +36,7 @@ namespace Parser
             {
                 lock (lockObj)
                 {
-                    proxyD = ProxyDataList.Find(proxy => !proxy.Using);
+                    proxyD = ProxyDataList.Find(proxy => !proxy.Using && proxy.Valid);
                     if (proxyD != null)
                     {
                         proxyD.Using = true;
@@ -42,16 +44,36 @@ namespace Parser
                     }
                 }
             }
-
-            HttpWebRequest request = WebRequest.CreateHttp(parseD.Url);
+            
+            HttpWebRequest request = WebRequest.CreateHttp(parseD.Url.Replace("https", "http"));
             WebProxy webProxy = new WebProxy(proxyD.ProxyValue, proxyD.ProxyPort);
             // request.Proxy = webProxy;
+            request.KeepAlive = false;
+            request.Credentials = CredentialCache.DefaultCredentials;
             request.ContentType = "text/html; charset=UTF-8";
-            Stream responseStream = request.GetResponse().GetResponseStream();
-            
-            
-            parseD.ParseResult = new ParseResult<T>();
-            parseD.ParseResult.Value = parseD.ParserOptions.GetParseMethod(responseStream);
+            request.Timeout = 2000;
+            try
+            {
+                StreamReader responseStream =
+                    new StreamReader(request.GetResponse().GetResponseStream(), Encoding.UTF8);
+                parseD.ParseResult = new ParseResult<T>();
+                parseD.ParserOptions = new ParserOptions<T>(ParserOptionsEnum.Selector, Config.P_CLASS_SELECTOR,
+                    Config.ATTR_HREF);
+                parseD.ParseResult.Value = parseD.ParserOptions.GetParseMethod(responseStream);
+            }
+            catch (WebException webException)
+            {
+                proxyD.Using = false;
+                int error = webException.Response == null ? 0 : (int)((HttpWebResponse) webException.Response).StatusCode;
+                if (error == 403 || error == 500 || error == 408 || error == 0 || error == 400)
+                {
+                    // proxyD.Valid = false;
+                }
+                // Console.WriteLine("Proxy av: " + ProxyDataList.FindAll(proxy => proxy.Valid).Count);
+
+                Console.Error.WriteLine(webException.Message);
+            }
+
         }
         
     }

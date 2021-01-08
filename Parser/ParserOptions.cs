@@ -8,11 +8,13 @@ namespace Parser
     {
         private ParserOptionsEnum _optionsEnumValue;
         private string _parserOptionsAnchor;
+        private string _attribute;
 
-        public ParserOptions(ParserOptionsEnum optionsEnumValue, string parserOptionsAnchor)
+        public ParserOptions(ParserOptionsEnum optionsEnumValue, string parserOptionsAnchor, string attribute)
         {
             _optionsEnumValue = optionsEnumValue;
             _parserOptionsAnchor = parserOptionsAnchor;
+            _attribute = attribute;
         }
 
         public ParserOptionsEnum OptionsEnumValue
@@ -27,11 +29,11 @@ namespace Parser
             set => _parserOptionsAnchor = value;
         }
 
-        public Func<Stream, T> GetParseMethod
+        public Func<StreamReader, T> GetParseMethod
         {
             get
             {
-                Func<Stream, T> parseMethod = responseStream => null;
+                Func<StreamReader, T> parseMethod = responseStream => null;
                 
                 var doc = new HtmlAgilityPack.HtmlDocument();
                 HtmlAgilityPack.HtmlNode.ElementsFlags["br"] = HtmlAgilityPack.HtmlElementFlag.Empty;
@@ -46,7 +48,7 @@ namespace Parser
                         {
                             doc.Load(responseStream);
                             responseStream.Close();
-                            var aString = doc.DocumentNode.SelectSingleNode(_parserOptionsAnchor).InnerHtml.ToString();
+                            var aString = doc.DocumentNode.SelectSingleNode(_parserOptionsAnchor).GetAttributeValue(_attribute, "");
                             T result = aString as T;
                             return result;
                         };
