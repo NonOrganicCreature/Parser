@@ -7,5 +7,6 @@ namespace Parser
         public abstract List<ParserData<T>> ParserDataList { get; }
         public abstract void Run();
         protected abstract void Parse(object parseData);
+
     }
 }

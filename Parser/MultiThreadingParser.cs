@@ -11,8 +11,10 @@ namespace Parser
     {
         public override List<ParserData<T>> ParserDataList { get; }
         public List<ProxyData> ProxyDataList { get; }
-        public object lockObj = new object();
-        
+        private object lockObj = new object();
+        private bool parsingDone = false;
+
+        private int callCount = 0;
         public MultiThreadingParser(List<ParserData<T>> initializeParserData, List<ProxyData> proxyData)
         {
             ParserDataList = initializeParserData;
@@ -21,12 +23,29 @@ namespace Parser
         
         public override void Run()
         {
+            List<Thread> threads = new List<Thread>();
             foreach (var parserData in ParserDataList)
             {
-                Thread parseThread = new Thread(Parse);
-                parseThread.Start(parserData);
+                if (parserData.ParseResult == null)
+                {
+                    Thread parseThread = new Thread(Parse);
+                    threads.Add(parseThread);
+                    parseThread.Start(parserData);
+                }
+            }
+
+            foreach (var thread in threads)
+            {
+                thread.Join();
+            }
+            
+            ParserData<T> someNotDone = ParserDataList.Find(parserData => parserData.ParseResult == null);
+            if (someNotDone != null)
+            {
+                Run();
             }
         }
+
 
         protected override void Parse(object parseData)
         {
@@ -47,18 +66,23 @@ namespace Parser
             
             HttpWebRequest request = WebRequest.CreateHttp(parseD.Url.Replace("https", "http"));
             WebProxy webProxy = new WebProxy(proxyD.ProxyValue, proxyD.ProxyPort);
-            // request.Proxy = webProxy;
+            request.Proxy = webProxy;
             request.KeepAlive = false;
             request.Credentials = CredentialCache.DefaultCredentials;
             request.ContentType = "text/html; charset=UTF-8";
+            request.UserAgent =
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36";
+            request.Accept = "text/html";
             request.Timeout = 2000;
             try
             {
                 StreamReader responseStream =
                     new StreamReader(request.GetResponse().GetResponseStream(), Encoding.UTF8);
+                proxyD.Using = false;
+                
                 parseD.ParseResult = new ParseResult<T>();
-                parseD.ParserOptions = new ParserOptions<T>(ParserOptionsEnum.Selector, Config.P_CLASS_SELECTOR,
-                    Config.ATTR_HREF);
+                parseD.ParserOptions = new ParserOptions<T>(ParserOptionsEnum.Selector, Config.HIDDEN_WAR_SELECTOR,
+                    null);
                 parseD.ParseResult.Value = parseD.ParserOptions.GetParseMethod(responseStream);
             }
             catch (WebException webException)
@@ -70,7 +94,8 @@ namespace Parser
                     // proxyD.Valid = false;
                 }
                 // Console.WriteLine("Proxy av: " + ProxyDataList.FindAll(proxy => proxy.Valid).Count);
-
+                
+                
                 Console.Error.WriteLine(webException.Message);
             }
 

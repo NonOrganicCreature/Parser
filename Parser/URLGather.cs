@@ -14,24 +14,14 @@ namespace Parser
         {
             ParserDataList = initializeParserData;
         }
-        
-        private bool endReached = false;
-        private int cnt = 0;
 
         public override void Run()
         {
-            foreach (var parserData in ParserDataList)
-            {
-                if (parserData.ParseResult == null)
-                {
-                    Parse(parserData);
-                }
-            }
+            Parse(ParserDataList[0]);
         }
 
         protected override void Parse(object parseData)
         {
-            
             ParserData<T> parseD = (ParserData<T>) parseData;
             HttpWebRequest request = WebRequest.CreateHttp(parseD.Url);
             request.KeepAlive = false;
@@ -50,27 +40,24 @@ namespace Parser
             catch (WebException webException)
             {
                 Console.Error.WriteLine(webException.Message);
-            }
-            
-            if (parseD.ParseResult == null)
-            {
-                Run();
+                this.Parse(parseData);
                 return;
             }
+
+            Console.WriteLine(parseD.ParseResult.Value.ToString());
             
             if (parseD.ParseResult.Value.ToString() == Config.END_OF_URL_PARSING)
             {
                 return;
             }
 
-            this.ParserDataList.Add(
-                new ParserData<T>(
-                    parseD.ParseResult.Value.ToString(), 
-                    new ParserOptions<T>(ParserOptionsEnum.Selector, Config.P_CLASS_SELECTOR, Config.ATTR_HREF), 
-                    null)
-                );
-
-            Run();
+            var newParserData = new ParserData<T>(
+                parseD.ParseResult.Value.ToString(),
+                new ParserOptions<T>(ParserOptionsEnum.Selector, Config.P_CLASS_SELECTOR, Config.ATTR_HREF),
+                null);
+            
+            ParserDataList.Add(newParserData);
+            Parse(newParserData);
         }
     }
 }

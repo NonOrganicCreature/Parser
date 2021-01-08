@@ -48,7 +48,8 @@ namespace Parser
                         {
                             doc.Load(responseStream);
                             responseStream.Close();
-                            var aString = doc.DocumentNode.SelectSingleNode(_parserOptionsAnchor).GetAttributeValue(_attribute, "");
+                            var node = doc.DocumentNode.SelectSingleNode(_parserOptionsAnchor);
+                            var aString = node != null ? doc.DocumentNode.SelectSingleNode(_parserOptionsAnchor).GetAttributeValue(_attribute, "") : Config.END_OF_URL_PARSING;
                             T result = aString as T;
                             return result;
                         };
