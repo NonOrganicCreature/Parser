@@ -51,18 +51,15 @@ namespace Parser
         {
             ParserData<T> parseD = (ParserData<T>)parseData;
             ProxyData proxyD;
-            while (true)
+
+            Random random = new Random();
+            int randomProxyIndex = random.Next(0, ProxyDataList.Count - 1);
+            while (ProxyDataList[randomProxyIndex].Using)
             {
-                lock (lockObj)
-                {
-                    proxyD = ProxyDataList.Find(proxy => !proxy.Using && proxy.Valid);
-                    if (proxyD != null)
-                    {
-                        proxyD.Using = true;
-                        break; 
-                    }
-                }
+                randomProxyIndex = random.Next(0, ProxyDataList.Count - 1);
             }
+            
+            proxyD = ProxyDataList[randomProxyIndex];
             
             HttpWebRequest request = WebRequest.CreateHttp(parseD.Url.Replace("https", "http"));
             WebProxy webProxy = new WebProxy(proxyD.ProxyValue, proxyD.ProxyPort);
@@ -73,7 +70,7 @@ namespace Parser
             request.UserAgent =
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36";
             request.Accept = "text/html";
-            request.Timeout = 2000;
+            request.Timeout = 10000;
             try
             {
                 StreamReader responseStream =
@@ -84,6 +81,8 @@ namespace Parser
                 parseD.ParserOptions = new ParserOptions<T>(ParserOptionsEnum.Selector, Config.HIDDEN_WAR_SELECTOR,
                     null);
                 parseD.ParseResult.Value = parseD.ParserOptions.GetParseMethod(responseStream);
+                
+                Console.WriteLine(parseD.ParseResult.Value.ToString());
             }
             catch (WebException webException)
             {
@@ -93,8 +92,7 @@ namespace Parser
                 {
                     // proxyD.Valid = false;
                 }
-                // Console.WriteLine("Proxy av: " + ProxyDataList.FindAll(proxy => proxy.Valid).Count);
-                
+                Console.WriteLine("Proxy av: " + ProxyDataList.FindAll(proxy => proxy.Using).Count);
                 
                 Console.Error.WriteLine(webException.Message);
             }

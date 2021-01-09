@@ -49,7 +49,17 @@ namespace Parser
                             doc.Load(responseStream);
                             responseStream.Close();
                             var node = doc.DocumentNode.SelectSingleNode(_parserOptionsAnchor);
-                            var aString = node != null ? doc.DocumentNode.SelectSingleNode(_parserOptionsAnchor).GetAttributeValue(_attribute, "") : Config.END_OF_URL_PARSING;
+                            string aString = "";
+                            if (_attribute == null)
+                            {
+                                aString = node != null ? doc.DocumentNode.SelectSingleNode(_parserOptionsAnchor).InnerText : Config.END_OF_URL_PARSING;
+                                Console.WriteLine("HERE");
+                            }
+                            else
+                            {
+                                aString = node != null ? doc.DocumentNode.SelectSingleNode(_parserOptionsAnchor).GetAttributeValue(_attribute, "") : Config.END_OF_URL_PARSING;
+                            }
+                            
                             T result = aString as T;
                             return result;
                         };
